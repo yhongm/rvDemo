@@ -36,7 +36,12 @@
   "dependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+<<<<<<< HEAD
     "rvcalendar": "^1.0.2",
     "yhongm_rv.js": "^1.1.8"
+=======
+    "rvcalendar": "^1.0.4",
+    "yhongm_rv.js": "^1.1.3"
+>>>>>>> 0cc89a6078760db6d76df02f7dee8ed0ffcf4e5f
   }
 }
