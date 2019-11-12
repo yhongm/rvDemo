@@ -14,52 +14,63 @@ window.clickP2= function () {
 }
 window.onload = function () {
     
-     rv= new RV( //创建对象
+     let myData = {
+    parent: "parent",
+    child: "child",
+    pcolor: "red",
+    c1color: "blue",
+    c2color: "green",
+    child2: "child2",
+    week: [
+        {
+            id: 11,
+            content: "111"
+        },
+        {
+            id: 22,
+            content: "222"
+        },
+        {
+            id: 33,
+            content: "333"
+        },
+    ]
+   }
+    window.data = myData //控制台修改data数据，视图自动刷新内容
+       rv = new RV( //创建对象
         {
             el: "#app",
             //el对象挂载的节点s
-            data: {
-                parent: "parent",
-                child: "child",
-                pcolor: "red",
-                c1color: "blue",
-                c2color: "green",
-                child2: "child2"
-            },
-            //data为虚拟dom绑定的数据对象，虚拟dom取用数据时使用%##%占位符取用对应数据
-            dom: {
-                tag: "div",
-                //tag为html元素为标签名
-                props: {
-                    key: "1",
-                    style: "color:%#pcolor#%,width:100px,height:100px",
-                    onclick: "clickDiv()"
-                },
-                //props html元素属性,包含key,style以及事件等信息。key为必填，不能重复
-                children: ["%#parent#%",
-                    //children为子节点数组，可以包含字符串以及虚拟dom。此处"%#parent#%"取用data.parent数据，在渲染前填充子节点为真实数据。data.parent数据变化时自动驱动视图更新
-                    {
-                        tag: "p",
-                        props: {
-                            key: "2",
-                            style: "color:%#c1color#%,width:50px,height:50px",
-                            onclick: "clickP1()"
-                        },
-                        children: ["%#child#%"]
-                    },
-                    {
-                        tag: "p",
-                        props: {
-                            key: "3",
-                            style: "color:%#c2color#%,width:50px,height:50px",
-                            onclick: "clickP2()"
-                        },
-                        children: ["%#child2#%"]
-                    }
-                ]
-            }
+            data: myData,
+             template: `<div key="1" style="color:%#pcolor#%,width:100px,height:100px" onclick="clickDiv()">
+                         "%#parent#%"
+                         <p key="2" style="color:%#c1color#%,width:50px,height:50px" onclick="clickP1()">
+                             "%#child#%"
+                         </p>
+                         <p key="3" style="color:%#c2color#%,width:50px,height:50px" onclick="clickP2()">
+                            "%#child2#%"
+                         </p>
+                         <div key="4">
+                            <p key="{%#v.id#%+'_content'}" childDomData="v" for="v _in_ week"  domData="week">"%#v.content#%"</p>
+                         </div>
+                       </div>`
         })
 
+        //rv.watch("key",callback) 观察data数据对象对应key的数值变化,变化触发callback
+        rv.watch("parent", () => { alert("parent,change") })
+        
+        rv.watch("child", () => { alert("child,change") })
+        rv.watch("child2", () => { alert("child2,change") })
+    
+        function clickDiv() {
+            rv.data.parent = `click Div time:${new Date() / 1000}`//点击更新data，视图自动更新
+        }
+        function clickP1() {
+            rv.data.child = `click p1 time:${new Date() / 1000}` //点击更新data变化,视图自动更新
+        }
+        function clickP2() {
+            rv.data.child2 = `click p2 time:${new Date() / 1000}`//点击更新data变化,视图自动更新
+        }
 
     rv.watch("parent", () => {
         alert("parent,change")
