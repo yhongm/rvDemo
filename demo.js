@@ -41,6 +41,15 @@ window.onload = function () {
         template: `
             <div class="aaa" key="aaa"><p key="bbb" style="color:%#pcolor#%" time="%#time#%" componentValue="%#pvalue#%">"%#pcontent#%"</p><div>
         `,//定义RV组件,HTML语法声明组件模板
+        style: `
+          .aaa {
+            background-color: red
+           }
+          .bbb {
+            width: 500px;
+            height:200px;
+          }
+        `,
         props: {//定义RV组件属性,用于外部设值组件属性
             time: "1000",
             content: "a custom component",
