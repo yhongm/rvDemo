@@ -1,5 +1,5 @@
 // import RV from './src/rv/main'
-import RV from './src/rv'
+import RV from yhongm_rv.js
 
 let rv
 
